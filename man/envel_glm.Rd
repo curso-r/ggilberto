@@ -4,14 +4,12 @@
 \alias{envel_glm}
 \title{Envelope plots of generalized linear model}
 \usage{
-envel_glm(fit, B = 100, resid_type = "response")
+envel_glm(fit, B = 100)
 }
 \arguments{
 \item{fit}{a model object - currently working for glm}
 
 \item{B}{number of bootstrap iterations}
-
-\item{resid_type}{type of the residual to be used}
 }
 \description{
 Draws the envelope plot for the residual distributions of a generalized linear model.
