@@ -5,9 +5,9 @@
 #' @param y new response variable
 #'
 refit <- function(model, y){
-  x <- as.data.frame(model.matrix(model))
+  x <- as.data.frame(stats::model.matrix(model))
   x$`.y` <- y
-  update(model, .y ~ ., data = x)
+  stats::update(model, .y ~ ., data = x)
 }
 
 
