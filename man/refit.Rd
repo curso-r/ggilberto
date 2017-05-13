@@ -14,4 +14,3 @@ refit(model, y)
 \description{
 Refits a model changing the response variable
 }
-
