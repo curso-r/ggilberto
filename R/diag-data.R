@@ -2,7 +2,7 @@
 #'
 #' Uses broom::augment and some other useful measures
 #'
-#' @param model
+#' @param model fitted model
 #'
 #' @export
 diag_data <- function(model) {
