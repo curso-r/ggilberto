@@ -1,33 +1,76 @@
-#' Fitted values against residuals
-#'
-#' Plots residuals versus fitted values of a generalized linear model.
-#' @param fit a model object - currently working for glm
-#'
-#' @export
-diag_resid_versus_fit <- function(fit){
-  w <- fit.model$weights
-  W <- diag(w)
-  H <- solve(t(X)%*%W%*%X)
-  H <- sqrt(W)%*%X%*%H%*%t(X)%*%sqrt(W)
-  h <- diag(H)
+gg_leverage <- function(df) {
+  UseMethod('gg_leverage')
+}
 
-  if(fit.model$family$family == "Gamma"){
-    fi <- MASS::gamma.shape(fit.model)$alpha
-    coeficiente <- sqrt(fi/(1-h))
-  } else {
-    coeficiente <- sqrt(1-h)
-  }
+gg_link <- function(df) {
+  UseMethod('gg_link')
+}
 
-  td <- resid(fit.model,type="deviance")*coeficiente
-  a <- max(td)
-  b <- min(td)
-
-  data_frame(fitted_values = fitted(fit.model), deviance_component = td) %>%
-    ggplot(aes(x = fitted_values, y = deviance_component)) +
+gg_resid_vs_fit <- function(df) {
+  df %>%
+    ggplot(aes(x = .fitted, y = .std.resid)) +
     geom_point() +
     geom_hline(yintercept = 2, linetype = 2) +
     geom_hline(yintercept = -2, linetype = 2) +
     theme_bw(15) +
-    scale_y_continuous(limits = c(b-1,a+1)) +
-    labs(x = 'Valor Ajustado', y = 'Resíduo Componente do Desvio')
+    scale_y_continuous(limits = range(df$.std.resid) + c(-1, 1)) +
+    labs(x = 'Fitted values', y = 'Deviance residuals')
 }
+
+gg_leverage.diag_lm <- function(df) {
+  p <- stringr::str_which(names(df), '\\.fitted') - 3L
+  df %>%
+    ggplot(aes(x = seq_along(.rownames), y = .hat)) +
+    geom_point() +
+    theme_bw(15) +
+    geom_hline(2 * p / nrow(df), colour = 'blue') +
+    labs(x = 'Index', y = 'Leverage')
+}
+
+gg_leverage.diag_glm <- function(df) {
+  df %>%
+    ggplot(aes(x = .fitted, y = .hat)) +
+    geom_point() +
+    theme_bw(15) +
+    labs(x = 'Fitted values', y = 'Leverage')
+}
+
+gg_cook <- function(df) {
+  df %>%
+    ggplot(aes(x = seq_along(.rownames), y = .cooksd)) +
+    geom_point() +
+    theme_bw(15) +
+    labs(x = 'Index', y = "Cook's distance")
+}
+
+gg_link.diag_glm <- function(df) {
+  df %>%
+    ggplot(aes(x = .eta, y = .z)) +
+    geom_point() +
+    theme_bw(15) +
+    labs(x = 'Linear predictor', y = "Z variable") +
+    geom_smooth(se = TRUE, alpha = .2)
+}
+
+#' Plot diag
+#'
+#' @param x object
+#' @param graphic -
+#' @param ... other
+#'
+#' @import ggplot2
+#'
+#' @export
+plot.diag_glm <- function(x, graphic = 'residuals', ...) {
+  # graphic <- list(...)$graphic
+  if (length(graphic) > 1) stop ("I won't make more than one graph for you.")
+  if (graphic == 'link' && 'diag_lm' %in% x) stop('There are no link functions in linear models.')
+  if (graphic == 'residuals') p <- gg_resid_vs_fit(x)
+  if (graphic == 'leverage') p <- gg_leverage(x)
+  if (graphic == 'cook') p <- gg_cook(x)
+  if (graphic == 'link') p <- gg_link(x)
+  print(p)
+}
+
+
+
