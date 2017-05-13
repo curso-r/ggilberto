@@ -3,6 +3,6 @@
 S3method(plot,diag_glm)
 export("%>%")
 export(diag_data)
-export(envel_glm)
+export(envel)
 import(ggplot2)
 importFrom(magrittr,"%>%")
