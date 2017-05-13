@@ -7,7 +7,7 @@
 #'
 #' @import ggplot2
 #' @export
-envel_glm <- function(fit, B = 100) {
+envel <- function(fit, B = 100) {
   residual_sample <- simulate(fit, nsim = B) %>%
     purrr::map_df(~refit(fit, .x) %>%
                     resid(type = 'deviance') %>%
@@ -29,7 +29,7 @@ envel_glm <- function(fit, B = 100) {
     geom_ribbon(alpha = 0.3) +
     geom_abline(slope = 1, intercept = 0, linetype = 2) +
     theme_bw(15) +
-    labs(y = 'Resíduos Empíricos', x = 'Resíduos Teóricos') +
+    labs(y = 'Deviance residuals', x = 'Theoretic quantiles') +
     theme(legend.position = 'none') +
     scale_color_manual(values = c("black","red"))
 }
