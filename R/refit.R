@@ -5,7 +5,7 @@
 #' @param y new response variable
 #'
 refit <- function(model, y){
-  x <- model.matrix(model) %>% as.data.frame()
+  x <- as.data.frame(model.matrix(model))
   x$`.y` <- y
   update(model, .y ~ ., data = x)
 }
