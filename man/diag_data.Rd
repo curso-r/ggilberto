@@ -7,7 +7,7 @@
 diag_data(model)
 }
 \arguments{
-\item{model}{}
+\item{model}{fitted model}
 }
 \description{
 Uses broom::augment and some other useful measures
