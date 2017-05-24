@@ -1,8 +1,25 @@
-#' Create tibble with useful diagnostic measures
+#' Create a tibble with useful diagnostic measures
 #'
 #' Uses broom::augment and some other useful measures
 #'
-#' @param model fitted model
+#' @param model a previously fitted model of class \code{lm} or \code{glm}
+#'
+#' @return A tibble with the following columns:
+#'
+#'   - x1
+#'
+#'   - x2
+#'
+#'   - x3
+#'
+#' @family glm diagnostic functions
+#'
+#' @examples
+#' fit_lm <- lm(mpg ~ cyl, data = mtcars)
+#' diag_data(fit_lm)
+#'
+#' fit_glm <- glm(mpg ~ cyl, family = Gamma(link = "log"), data = mtcars)
+#' diag_data(fit_glm)
 #'
 #' @export
 diag_data <- function(model) {

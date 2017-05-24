@@ -2,13 +2,33 @@
 % Please edit documentation in R/diag-data.R
 \name{diag_data}
 \alias{diag_data}
-\title{Create tibble with useful diagnostic measures}
+\title{Create a tibble with useful diagnostic measures}
 \usage{
 diag_data(model)
 }
 \arguments{
-\item{model}{fitted model}
+\item{model}{a previously fitted model of class \code{lm} or \code{glm}}
+}
+\value{
+A tibble with the following columns
+
+  - x1
+
+  - x2
+
+  - x3
 }
 \description{
 Uses broom::augment and some other useful measures
+}
+\examples{
+fit_lm <- lm(mpg ~ cyl, data = mtcars)
+diag_data(fit_lm)
+
+fit_glm <- glm(mpg ~ cyl, family = Gamma(link = "log"), data = mtcars)
+diag_data(fit_glm)
+
+}
+\seealso{
+Other glm diagnostic functions: \code{\link{plot.diag_glm}}
 }

@@ -58,6 +58,8 @@ gg_link.diag_glm <- function(df) {
 #' @param graphic -
 #' @param ... other
 #'
+#' @family glm diagnostic functions
+#'
 #' @import ggplot2
 #'
 #' @export
@@ -71,6 +73,4 @@ plot.diag_glm <- function(x, graphic = 'residuals', ...) {
   if (graphic == 'link') p <- gg_link(x)
   print(p)
 }
-
-
 
