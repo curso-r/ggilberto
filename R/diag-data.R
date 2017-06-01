@@ -4,13 +4,25 @@
 #'
 #' @param model a previously fitted model of class \code{lm} or \code{glm}
 #'
-#' @return A tibble with the following columns:
+#' @return A tibble of class \code{diag_lm} or \code{diag_glm}
+#'  (depending on the class of the \code{model} object) with the following columns:
 #'
-#'   - x1
+#'   \itemize{
+#'     \item \strong{.rownames}: the row labels taken from the dataset
+#'     \item the variables (response and predictors) used to fit the model
+#'     \item \strong{.fitted}: predicted value
+#'     \item \strong{.se.fit}: standard-error
+#'     \item \strong{.resid}: residuals
+#'     \item \strong{.hat}: h-measure
+#'     \item \strong{.sigma}:
+#'     \item \strong{.cooksd}: Cook's distance
+#'     \item \strong{.std.resid}: standardized residuals
+#'     \item \strong{.w}: weights
+#'     \item \strong{.eta}:
+#'     \item \strong{.pearson}: person residuals
+#'     \item \strong{.z}: z-measure
+#'   }
 #'
-#'   - x2
-#'
-#'   - x3
 #'
 #' @family glm diagnostic functions
 #'

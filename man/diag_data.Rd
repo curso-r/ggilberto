@@ -10,13 +10,24 @@ diag_data(model)
 \item{model}{a previously fitted model of class \code{lm} or \code{glm}}
 }
 \value{
-A tibble with the following columns
+A tibble of class \code{diag_lm} or \code{diag_glm}
+ (depending on the class of the \code{model} object) with the following columns:
 
-  - x1
-
-  - x2
-
-  - x3
+  \itemize{
+    \item \strong{.rownames}: the row labels taken from the dataset
+    \item the variables (response and predictors) used to fit the model
+    \item \strong{.fitted}: predicted value
+    \item \strong{.se.fit}: standard-error
+    \item \strong{.resid}: residuals
+    \item \strong{.hat}: h-measure
+    \item \strong{.sigma}:
+    \item \strong{.cooksd}: Cook's distance
+    \item \strong{.std.resid}: standardized residuals
+    \item \strong{.w}: weights
+    \item \strong{.eta}:
+    \item \strong{.pearson}: person residuals
+    \item \strong{.z}: z-measure
+  }
 }
 \description{
 Uses broom::augment and some other useful measures
@@ -30,5 +41,6 @@ diag_data(fit_glm)
 
 }
 \seealso{
-Other glm diagnostic functions: \code{\link{plot.diag_glm}}
+Other glm diagnostic functions: \code{\link{plot.diag_glm}},
+  \code{\link{plot.diag_lm}}
 }
