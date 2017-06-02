@@ -7,12 +7,12 @@
 \method{plot}{diag_lm}(x, graphic = "residuals", ...)
 }
 \arguments{
-\item{x}{a tibble of class \code{diag_lm} or \code{diag_glm}.}
+\item{x}{a tibble of class \code{diag_lm}.}
 
 \item{graphic}{a string specifying the graphic to be plotted. The available
 choices are 'residuals' (default), 'leverage', 'cook' and 'link'.}
 
-\item{...}{futher arguments passed to \code{ggplot} function.}
+\item{...}{futher arguments.}
 }
 \description{
 \code{ggplot} is used to plot a specific diagnostic graphic. The choices are:
@@ -21,15 +21,10 @@ plot (link function plot). See \emph{Details} for more information.
 }
 \details{
 The graph created will depend on the class of the \code{model} object and
-choice of the \code{graphic} argument. For both \code{diag_lm} and
-\code{diag_glm} classes, the option \code{"residuals"} creates a residuals
-vs fitted values plot, and the option \code{"cook"} creates a Cook's
-distance vs index plot. If the class of \code{model} is \code{diag_lm}, the
-option \code{"leverage"} plots a leverage vs index plot, and the option
-\code{"link"} will return a error message since there are no link functions
-in linear models. Finally, if the class is \code{diag_glm}, the option
-\code{"leverage"} creats a leverage vs fitted values plot, and the option
-\code{"link"} returns a z variable vs linear predictor plot.
+choice of the \code{graphic} argument. For \code{diag_lm} class, the option
+\code{"residuals"} creates a residuals vs fitted values plot, the option
+\code{"cook"} creates a Cook's distance vs index plot, and the option
+\code{"leverage"} plots a leverage vs index plot.
 
 For more information about the measures used to create the plots, see the
 \code{\link{diag_data}} function documentation.

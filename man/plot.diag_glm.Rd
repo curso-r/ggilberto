@@ -2,37 +2,44 @@
 % Please edit documentation in R/plot-diag-lm-glm.R
 \name{plot.diag_glm}
 \alias{plot.diag_glm}
-\title{Create a specific diagnostic graphic for glm fits}
+\title{Create a specific diagnostic graphic for glm fit}
 \usage{
 \method{plot}{diag_glm}(x, graphic = "residuals", ...)
 }
 \arguments{
-\item{x}{a tibble of class \code{diag_lm} or \code{diag_glm}.}
+\item{x}{a tibble of class \code{diag_glm}.}
 
 \item{graphic}{a string specifying the graphic to be plotted. The available
 choices are 'residuals' (default), 'leverage', 'cook' and 'link'.}
 
-\item{...}{futher arguments passed to \code{ggplot} function.}
+\item{...}{futher arguments.}
 }
 \description{
 \code{ggplot} is used to plot a specific diagnostic graphic. The choices are:
 residuals plot, leverage mesuare plot, Cook's distance plot and z variable
-plot (link function plot). See \emph{Details} for more information.
+plot (link function plot). See \emph{Details} section for more information.
 }
 \details{
 The graph created will depend on the class of the \code{model} object and
-choice of the \code{graphic} argument. For both \code{diag_lm} and
-\code{diag_glm} classes, the option \code{"residuals"} creates a residuals
-vs fitted values plot, and the option \code{"cook"} creates a Cook's
-distance vs index plot. If the class of \code{model} is \code{diag_lm}, the
-option \code{"leverage"} plots a leverage vs index plot, and the option
-\code{"link"} will return a error message since there are no link functions
-in linear models. Finally, if the class is \code{diag_glm}, the option
+choice of the \code{graphic} argument. For \code{diag_glm} class, the option
+\code{"residuals"} creates a residuals vs fitted values plot, the option
+\code{"cook"} creates a Cook's distance vs index plot, the option
 \code{"leverage"} creats a leverage vs fitted values plot, and the option
 \code{"link"} returns a z variable vs linear predictor plot.
 
 For more information about the measures used to create the plots, see the
 \code{\link{diag_data}} function documentation.
+}
+\examples{
+
+fit_glm <- glm(mpg ~ cyl, family = Gamma(link = "log"), data = mtcars)
+diag_glm <- diag_data(fit_glm)
+
+plot(diag_glm)
+plot(diag_glm, graphic = "leverage")
+plot(diag_glm, graphic = "cook")
+plot(diag_glm, graphic = "link")
+
 }
 \seealso{
 Other glm diagnostic functions: \code{\link{diag_data}},
