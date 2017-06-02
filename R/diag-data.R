@@ -33,10 +33,10 @@ diag_data <- function(model) {
   d_diag <- model %>%
     broom::augment() %>%
     dplyr::mutate(.w = 1, .eta = predict(model),
-                  .pearson = resid(model, type = 'pearson'),
+                  .pearson = resid(model, type = "pearson"),
                   .z = .eta + .pearson / .w) %>%
     tibble::as_tibble()
-  class(d_diag) <- c(ifelse('glm' %in% class(model),  'diag_glm', 'diag_lm'),
+  class(d_diag) <- c(ifelse("glm" %in% class(model),  "diag_glm", "diag_lm"),
                      class(d_diag))
   d_diag
 }

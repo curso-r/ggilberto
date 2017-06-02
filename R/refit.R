@@ -9,5 +9,3 @@ refit <- function(model, y) {
   x$`.y` <- y
   stats::update(model, .y ~ ., data = x)
 }
-
-

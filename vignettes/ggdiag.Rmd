@@ -1,5 +1,5 @@
 ---
-title: "Vignette Title"
+title: "The ggdiag package: a grammar for diagnostic graphics"
 author: "Curso-r"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,50 +9,60 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+The ggdiag package is a attempt to unify the diagnostic analysis in R. For most models, diagnostic graphics are hard to customize or to obtain. In some cases, the expression for the residuals needed are not even implemented.
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+Our main goal is to create a simple grammar to plot diagnostic graphics that can be used for any kind of statistical model. The strategy is based in to main functions: the `diag_data()` function and the `plot.model_class()` functions.
 
-## Vignette Info
+The `diag_data()` function receive a fitted model and returns a `tibble` with several diagnostic measures, such as residuals, cook's distance, leverage etc, depending on the class of the model. It uses `broom::augment()` function to create most of the measures.
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+The `plot.model_class()` functions are S3 methods for the generic function `plot()`. They receive a object of class `diag_data` and return a specified diagnostic graphic. The graphics are made using the `ggplot2` package, and one can combine them with the 
+`plotly::ggplolty()` function to identify points.
 
-## Styles
+So far, only the `lm` and `glm` classes are available.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+## Installing
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r}
+# How to install
+devtools::load_all(".")
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+## Diagnostic for linear models
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+The examples below show how build diagnostic graphics is easy using the `diag_data()` and `plot()` functions. After fitting the linear model, the major job is to choose the graphic type. For `lm` class, the options currently available are: `"residuals"` (default), `"leverage"` and `"cook"`.
 
-## More Examples
+```{r}
+library(ggilberto)
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+fit_lm <- lm(mpg ~ qsec, data = mtcars)
+diag_lm <- diag_data(fit_lm)
 ```
 
-Also a quote using `>`:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r}
+plot(diag_lm)
+```
+
+
+```{r}
+plot(diag_lm, graphic = "leverage")
+```
+
+
+```{r}
+plot(diag_lm, graphic = "cook")
+```
+
+
+
+## Diagnostic for generalized linear models
+
+The main difference for the generalized linear models is the `"link"` option to the graphic argument. It produces a link function plot for assessing whether the link function is adequate.
+
+```{r}
+ fit_glm <- glm(mpg ~ qsec, family = Gamma(link = "log"), data = mtcars)
+ diag_glm <- diag_data(fit_glm)
+ 
+ plot(diag_glm, graphic = "link")
+```
