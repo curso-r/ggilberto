@@ -4,12 +4,12 @@
 \alias{plot.diag_glm}
 \title{Create a specific diagnostic graphic for glm fit}
 \usage{
-\method{plot}{diag_glm}(x, graphic = "residuals", ...)
+\method{plot}{diag_glm}(x, type = "residuals", ...)
 }
 \arguments{
 \item{x}{a tibble of class \code{diag_glm}.}
 
-\item{graphic}{a string specifying the graphic to be plotted. The available
+\item{type}{a string specifying the graphic to be plotted. The available
 choices are 'residuals' (default), 'leverage', 'cook' and 'link'.}
 
 \item{...}{futher arguments.}
@@ -21,7 +21,7 @@ plot (link function plot). See \emph{Details} section for more information.
 }
 \details{
 The graph created will depend on the class of the \code{model} object and
-choice of the \code{graphic} argument. For \code{diag_glm} class, the option
+choice of the \code{type} argument. For \code{diag_glm} class, the option
 \code{"residuals"} creates a residuals vs fitted values plot, the option
 \code{"cook"} creates a Cook's distance vs index plot, the option
 \code{"leverage"} creats a leverage vs fitted values plot, and the option
@@ -31,14 +31,12 @@ For more information about the measures used to create the plots, see the
 \code{\link{diag_data}} function documentation.
 }
 \examples{
-
-fit_glm <- glm(mpg ~ cyl, family = Gamma(link = "log"), data = mtcars)
+fit_glm <- glm(mpg ~ qsec, family = Gamma(link = "log"), data = mtcars)
 diag_glm <- diag_data(fit_glm)
-
 plot(diag_glm)
-plot(diag_glm, graphic = "leverage")
-plot(diag_glm, graphic = "cook")
-plot(diag_glm, graphic = "link")
+plot(diag_glm, type = "leverage")
+plot(diag_glm, type = "cook")
+plot(diag_glm, type = "link")
 
 }
 \seealso{

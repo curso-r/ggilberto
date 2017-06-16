@@ -59,7 +59,7 @@ gg_link.diag_glm <- function(df) {
 #' plot (link function plot). See \emph{Details} section for more information.
 #'
 #' The graph created will depend on the class of the \code{model} object and
-#' choice of the \code{graphic} argument. For \code{diag_glm} class, the option
+#' choice of the \code{type} argument. For \code{diag_glm} class, the option
 #' \code{"residuals"} creates a residuals vs fitted values plot, the option
 #' \code{"cook"} creates a Cook's distance vs index plot, the option
 #' \code{"leverage"} creats a leverage vs fitted values plot, and the option
@@ -69,78 +69,75 @@ gg_link.diag_glm <- function(df) {
 #' \code{\link{diag_data}} function documentation.
 #'
 #' @param x a tibble of class \code{diag_glm}.
-#' @param graphic a string specifying the graphic to be plotted. The available
+#' @param type a string specifying the graphic to be plotted. The available
 #'   choices are 'residuals' (default), 'leverage', 'cook' and 'link'.
 #' @param ... futher arguments.
 #'
 #' @examples
-#'
 #' fit_glm <- glm(mpg ~ qsec, family = Gamma(link = "log"), data = mtcars)
 #' diag_glm <- diag_data(fit_glm)
-#'
 #' plot(diag_glm)
-#' plot(diag_glm, graphic = "leverage")
-#' plot(diag_glm, graphic = "cook")
-#' plot(diag_glm, graphic = "link")
+#' plot(diag_glm, type = "leverage")
+#' plot(diag_glm, type = "cook")
+#' plot(diag_glm, type = "link")
 #'
 #' @family glm diagnostic functions
 #' @method plot diag_glm
 #' @import ggplot2
 #' @export
-plot.diag_glm <- function(x, graphic = "residuals", ...) {
+plot.diag_glm <- function(x, type = "residuals", ...) {
 
-  if (length(graphic) > 1) stop ("I won't make more than one graph for you.")
+  if (length(type) > 1) stop ("I won't make more than one graph for you.")
 
-  if (graphic == "residuals") p <- gg_resid_vs_fit(x)
-  if (graphic == "leverage") p <- gg_leverage(x)
-  if (graphic == "cook") p <- gg_cook(x)
-  if (graphic == "link") p <- gg_link(x)
+  if (type == "residuals") p <- gg_resid_vs_fit(x)
+  if (type == "leverage") p <- gg_leverage(x)
+  if (type == "cook") p <- gg_cook(x)
+  if (type == "link") p <- gg_link(x)
   print(p)
 }
 
-#'Create a specific diagnostic graphic for lm fits
+#' Create a specific diagnostic graphic for lm fits
 #'
-#'\code{ggplot} is used to plot a specific diagnostic graphic. The choices are:
-#'residuals plot, leverage mesuare plot, Cook's distance plot and z variable
-#'plot (link function plot). See \emph{Details} for more information.
+#' \code{ggplot} is used to plot a specific diagnostic graphic. The choices are:
+#' residuals plot, leverage mesuare plot, Cook's distance plot and z variable
+#' plot (link function plot). See \emph{Details} for more information.
 #'
-#'The graph created will depend on the class of the \code{model} object and
-#'choice of the \code{graphic} argument. For \code{diag_lm} class, the option
-#'\code{"residuals"} creates a residuals vs fitted values plot, the option
-#'\code{"cook"} creates a Cook's distance vs index plot, and the option
-#'\code{"leverage"} plots a leverage vs index plot.
+#' The graph created will depend on the class of the \code{model} object and
+#' choice of the \code{type} argument. For \code{diag_lm} class, the option
+#' \code{"residuals"} creates a residuals vs fitted values plot, the option
+#' \code{"cook"} creates a Cook's distance vs index plot, and the option
+#' \code{"leverage"} plots a leverage vs index plot.
 #'
-#'For more information about the measures used to create the plots, see the
-#'\code{\link{diag_data}} function documentation.
+#' For more information about the measures used to create the plots, see the
+#' \code{\link{diag_data}} function documentation.
 #'
-#'@param x a tibble of class \code{diag_lm}.
-#'@param graphic a string specifying the graphic to be plotted. The available
+#' @param x a tibble of class \code{diag_lm}.
+#' @param type a string specifying the graphic to be plotted. The available
 #'  choices are 'residuals' (default), 'leverage', 'cook' and 'link'.
-#'@param ... futher arguments.
+#' @param ... futher arguments.
 #'
 #' @examples
 #'
-#' #' fit_glm <- glm(mpg ~ qsec, family = Gamma(link = "log"), data = mtcars)
-#' diag_glm <- diag_data(fit_glm)
-#'
-#' plot(diag_lm, graphic = "residuals")
-#' plot(diag_lm, graphic = "leverage")
-#' plot(diag_lm, graphic = "cook")
+#' fit_lm <- lm(mpg ~ qsec, data = mtcars)
+#' diag_lm <- diag_data(fit_lm)
+#' plot(diag_lm, type = "residuals")
+#' plot(diag_lm, type = "leverage")
+#' plot(diag_lm, type = "cook")
 #'
 #'@family glm diagnostic functions
 #'@method plot diag_lm
 #'@import ggplot2
 #'@export
-plot.diag_lm <- function(x, graphic = "residuals", ...) {
+plot.diag_lm <- function(x, type = "residuals", ...) {
 
-  if (length(graphic) > 1) stop ("I won't make more than one graph for you.")
+  if (length(type) > 1) stop ("I won't make more than one graph for you.")
 
-  if (graphic == "link") {
+  if (type == "link") {
     stop("There are no link functions in linear models.")
   }
 
-  if (graphic == "residuals") p <- gg_resid_vs_fit(x)
-  if (graphic == "leverage") p <- gg_leverage(x)
-  if (graphic == "cook") p <- gg_cook(x)
+  if (type == "residuals") p <- gg_resid_vs_fit(x)
+  if (type == "leverage") p <- gg_leverage(x)
+  if (type == "cook") p <- gg_cook(x)
   print(p)
 }

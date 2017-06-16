@@ -22,12 +22,6 @@ So far, only the `lm` and `glm` classes are available.
 
 ## Installing
 
-```{r}
-# How to install
-devtools::load_all(".")
-```
-
-
 ## Diagnostic for linear models
 
 The examples below show how build diagnostic graphics is easy using the `diag_data()` and `plot()` functions. After fitting the linear model, the major job is to choose the graphic type. For `lm` class, the options currently available are: `"residuals"` (default), `"leverage"` and `"cook"`.

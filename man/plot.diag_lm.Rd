@@ -4,12 +4,12 @@
 \alias{plot.diag_lm}
 \title{Create a specific diagnostic graphic for lm fits}
 \usage{
-\method{plot}{diag_lm}(x, graphic = "residuals", ...)
+\method{plot}{diag_lm}(x, type = "residuals", ...)
 }
 \arguments{
 \item{x}{a tibble of class \code{diag_lm}.}
 
-\item{graphic}{a string specifying the graphic to be plotted. The available
+\item{type}{a string specifying the graphic to be plotted. The available
 choices are 'residuals' (default), 'leverage', 'cook' and 'link'.}
 
 \item{...}{futher arguments.}
@@ -21,13 +21,22 @@ plot (link function plot). See \emph{Details} for more information.
 }
 \details{
 The graph created will depend on the class of the \code{model} object and
-choice of the \code{graphic} argument. For \code{diag_lm} class, the option
+choice of the \code{type} argument. For \code{diag_lm} class, the option
 \code{"residuals"} creates a residuals vs fitted values plot, the option
 \code{"cook"} creates a Cook's distance vs index plot, and the option
 \code{"leverage"} plots a leverage vs index plot.
 
 For more information about the measures used to create the plots, see the
 \code{\link{diag_data}} function documentation.
+}
+\examples{
+
+fit_lm <- lm(mpg ~ qsec, data = mtcars)
+diag_lm <- diag_data(fit_lm)
+plot(diag_lm, type = "residuals")
+plot(diag_lm, type = "leverage")
+plot(diag_lm, type = "cook")
+
 }
 \seealso{
 Other glm diagnostic functions: \code{\link{diag_data}},
